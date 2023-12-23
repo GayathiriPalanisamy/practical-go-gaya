@@ -42,8 +42,34 @@ func main() {
 	fmt.Printf("player %#v\n",player1.X) //you can also directly invoke the embed Item attributes
 	player1.Move(43,66)
 	fmt.Printf("player %#v",player1)
+
+	// consider i want all of the Items, players to be moved to one thing
+	// in Go interfaces is something wnat we want, not what we provide
+
+	ms :=[]mover{
+		&i2,
+		&player1,
+		&i3,
+	}
+	for _, m := range ms {
+		fmt.Println(m)
+	}
+	MoveAll(ms,0,0)
+	for _, m := range ms {
+		fmt.Println(m)
+	}
 }
 
+type mover interface{
+	Move(x int, y int)
+}
+
+func MoveAll(ms []mover, x, y int){
+	for _, m := range ms{
+		m.Move(x,y)
+	}
+
+}
 type Player struct {
 	Name string
 	Item //Embed Item

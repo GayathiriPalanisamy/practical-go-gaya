@@ -33,10 +33,14 @@ func main() {
 	fmt.Println(concat([]string{"a", "b"}, []string{"c", "d", "e"})) //{a, b, c, d, e}
 
 	value := []float64{2, 11, 3, 4}
-	fmt.Printf("%v \n %v", value, median(value))
+	fmt.Println(median(value))
+	fmt.Println(median(nil)) // panic 
 }
 
-func median(values []float64) float64 {
+func median(values []float64) (float64, error) {
+	if len(values) == 0{
+		return 0, fmt.Errorf("median of empty slices")
+	}
 	v := make([]float64, len(values))
 	copy(v,values)
 	sort.Float64s(v) //changes the values in memory, you lose you original slice 
@@ -46,7 +50,7 @@ func median(values []float64) float64 {
 		median = v[i]
 	}
 	median = (v[i-1] + v[i])/2
-	return median
+	return median, nil
 }
 
 func concat(str1 []string, str2 []string) []string {
